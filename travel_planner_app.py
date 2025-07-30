@@ -12,7 +12,7 @@ load_dotenv()
 import os
 import requests
 import json
-import os
+
 
 
 class TravelPlannerApp:
@@ -57,7 +57,7 @@ class TravelPlannerApp:
         self.load_plans()
 
     def fetch_weather(self, city):
-        api_key = "c3f37c7d1b92e255a4851f9d238093a3"  # Replace with your own API key
+        api_key = os.getenv("API_KEY")  
         url = "http://api.openweathermap.org/data/2.5/weather"
         params = {
             "q": city,

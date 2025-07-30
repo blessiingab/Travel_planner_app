@@ -1,0 +1,5 @@
+# .gitignore venv/ and .venv/
+venv/
+.env/
+#delete all files  .env
+*.env 

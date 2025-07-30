@@ -110,5 +110,12 @@
         "end_date": "30/jan",
         "activities": "trip",
         "weather": "Clear sky, 24.29\u00b0C"
+    },
+    {
+        "destination": "nairobi",
+        "start_date": "12/jan",
+        "end_date": "12/feb",
+        "activities": "trip",
+        "weather": "Overcast clouds, 21.8\u00b0C"
     }
 ]
