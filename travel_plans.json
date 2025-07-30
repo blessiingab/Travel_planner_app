@@ -1,0 +1,86 @@
+[
+    {
+        "destination": "paris",
+        "start_date": "12/08",
+        "end_date": "30/09",
+        "activities": "trip",
+        "weather": "Overcast clouds, 21.47\u00b0C"
+    },
+    {
+        "destination": "england ",
+        "start_date": "20/09",
+        "end_date": "30/09",
+        "activities": "vacation",
+        "weather": "Weather info unavailable"
+    },
+    {
+        "destination": "sweden",
+        "start_date": "12/11",
+        "end_date": "21/12",
+        "activities": "tour",
+        "weather": "Overcast clouds, 20.21\u00b0C"
+    },
+    {
+        "destination": "cairo",
+        "start_date": "12/12",
+        "end_date": "24/12",
+        "activities": "vacation",
+        "weather": "Weather info unavailable"
+    },
+    {
+        "destination": "new york",
+        "start_date": "12/3",
+        "end_date": "12/09",
+        "activities": "trip",
+        "weather": "Weather info unavailable"
+    },
+    {
+        "destination": "Chicago",
+        "start_date": "12/02",
+        "end_date": "12/04",
+        "activities": "trip",
+        "weather": "Weather info unavailable"
+    },
+    {
+        "destination": "hong ngok",
+        "start_date": "10/12",
+        "end_date": "12/01/2026",
+        "activities": "trip",
+        "weather": "Weather API key missing. Set OPENWEATHER_API_KEY."
+    },
+    {
+        "destination": "hong kong",
+        "start_date": "12/09",
+        "end_date": "11/11",
+        "activities": "trip",
+        "weather": "Weather info unavailable"
+    },
+    {
+        "destination": "chigaro",
+        "start_date": "12/09",
+        "end_date": "12/02",
+        "activities": "trip",
+        "weather": "Weather info unavailable"
+    },
+    {
+        "destination": "benin",
+        "start_date": "12/02",
+        "end_date": "12/03",
+        "activities": "trip",
+        "weather": "Weather info unavailable"
+    },
+    {
+        "destination": "chicago",
+        "start_date": "12/09",
+        "end_date": "12/12",
+        "activities": "trip",
+        "weather": "Broken clouds, 22.71\u00b0C"
+    },
+    {
+        "destination": "hongkong",
+        "start_date": "30/09",
+        "end_date": "30/10",
+        "activities": "vacation",
+        "weather": "Broken clouds, 29.24\u00b0C"
+    }
+]
