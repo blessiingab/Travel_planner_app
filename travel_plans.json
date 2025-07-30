@@ -82,5 +82,33 @@
         "end_date": "30/10",
         "activities": "vacation",
         "weather": "Broken clouds, 29.24\u00b0C"
+    },
+    {
+        "destination": "dodoma",
+        "start_date": "12/02",
+        "end_date": "30/06",
+        "activities": "trip",
+        "weather": "Clear sky, 26.57\u00b0C"
+    },
+    {
+        "destination": "kigali",
+        "start_date": "20/04",
+        "end_date": "30/07",
+        "activities": "trip",
+        "weather": "Missing API key in .env file"
+    },
+    {
+        "destination": "bujumbura",
+        "start_date": "26/ jan",
+        "end_date": "26/ feb",
+        "activities": "trip",
+        "weather": "Missing API key in .env file"
+    },
+    {
+        "destination": "kigali",
+        "start_date": "20/dec",
+        "end_date": "30/jan",
+        "activities": "trip",
+        "weather": "Clear sky, 24.29\u00b0C"
     }
 ]

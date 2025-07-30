@@ -7,6 +7,9 @@ Displays plan info in terminal too.
 
 import tkinter as tk
 from tkinter import messagebox
+from dotenv import load_dotenv
+load_dotenv()
+import os
 import requests
 import json
 import os
