@@ -1,17 +1,17 @@
 [
     {
         "destination": "paris",
-        "start_date": "12/08",
+        "start_date": "12/07",
         "end_date": "30/09",
         "activities": "trip",
-        "weather": "Overcast clouds, 21.47\u00b0C"
+        "weather": "Overcast clouds, 21.31\u00b0C"
     },
     {
-        "destination": "england ",
+        "destination": "london",
         "start_date": "20/09",
         "end_date": "30/09",
         "activities": "vacation",
-        "weather": "Weather info unavailable"
+        "weather": "Overcast clouds, 22.24\u00b0C"
     },
     {
         "destination": "sweden",
@@ -117,5 +117,12 @@
         "end_date": "12/feb",
         "activities": "trip",
         "weather": "Overcast clouds, 21.8\u00b0C"
+    },
+    {
+        "destination": "dodoma",
+        "start_date": "20/09",
+        "end_date": "30/09",
+        "activities": "vaction",
+        "weather": "Clear sky, 16.77 \u00b0C"
     }
 ]
