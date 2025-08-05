@@ -1,65 +1,142 @@
-Travel Planner App
-A simple web application to create, view, edit, and delete travel plans. It is deployed on two web servers and load balanced using Nginx.
+ Travel Planner App
 
-Overview
-The app runs on two Ubuntu servers:
+A Flask-based web application that helps users create, view, edit, and delete travel plans. It supports basic planning features and uses an external API to enhance the user experience.
 
-Web01: 54.88.46.147
 
-Web02: 52.90.91.120
 
-Nginx on the load balancer (35.174.154.54) distributes requests between these two servers.
+ Live Demo
 
-Sticky sessions are enabled to ensure users remain connected to the same server during their session.
+Access the app via the load balancer
 
-Deployment Instructions
-On Web01 and Web02
-Clone the repo
+🔗 [http://35.174.154.54](http://35.174.154.54)
 
-bash
-Copy
-Edit
-git clone https://github.com/blessiingab/travel-planner-app.git
+---
+
+Local Setup
+
+Clone the repository
+
+```bash
+git clone https://github.com/YOUR_USERNAME/travel-planner-app.git
 cd travel-planner-app
-Install dependencies
+```
 
-Make sure Python3 and pip are installed:
+### 2. Create and activate a virtual environment
 
-bash
-Copy
-Edit
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+
+### 3. Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Run the app locally
+
+```bash
+flask run
+```
+
+By default, the app runs on `http://127.0.0.1:5000/`.
+
+---
+
+## 🌐 Deployment on Web01 and Web02
+
+1. **Copy project files** to both servers (via Git or `scp`)
+
+2. **Set up Python environment**
+
+```bash
 sudo apt update
-sudo apt install python3 python3-pip -y
-Install Python packages
+sudo apt install python3-venv python3-pip -y
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
 
-bash
-Copy
-Edit
-pip3 install -r requirements.txt
-Run the app
+3. **Create a systemd service**
 
-Assuming your app runs on port 5000:
+```bash
+sudo nano /etc/systemd/system/travel_planner.service
+```
 
-bash
-Copy
-Edit
-python3 app.py
-Or if you have a startup script, use that.
+Paste the following:
 
-Make sure the app is listening on all interfaces (0.0.0.0), so it’s reachable by the load balancer.
+```ini
+[Unit]
+Description=Gunicorn instance to serve travel_planner
+After=network.target
 
-On Load Balancer (Lb01)
-Configure Nginx
+[Service]
+User=ubuntu
+Group=www-data
+WorkingDirectory=/home/ubuntu/travel-planner-app
+ExecStart=/home/ubuntu/travel-planner-app/venv/bin/gunicorn --workers 3 --bind 127.0.0.1:8000 main:app
 
-Create or edit /etc/nginx/conf.d/load_balance.conf with:
+[Install]
+WantedBy=multi-user.target
+```
+
+4. **Enable and start the service**
+
+```bash
+sudo systemctl daemon-reexec
+sudo systemctl daemon-reload
+sudo systemctl start travel_planner
+sudo systemctl enable travel_planner
+```
+
+5. **Install and configure Nginx**
+
+```bash
+sudo apt install nginx -y
+sudo nano /etc/nginx/sites-available/travel_planner
+```
+
+Paste:
+
+```nginx
+server {
+    listen 80;
+    server_name <WEB_SERVER_IP>;
+
+    location / {
+        proxy_pass http://127.0.0.1:8000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+}
+```
+
+Then:
+
+```bash
+sudo ln -s /etc/nginx/sites-available/travel_planner /etc/nginx/sites-enabled
+sudo nginx -t
+sudo systemctl reload nginx
+```
+
+---
+
+## ⚖️ Load Balancer (Nginx)
+
+1. **On the load balancer (Lb01), configure Nginx**
+
+
+sudo nano /etc/nginx/conf.d/load_balance.conf
+
+
+Paste:
 
 nginx
-Copy
-Edit
 upstream travel_backend {
     ip_hash;
-    server 54.88.46.147:5000;
-    server 52.90.91.120:5000;
+    server 54.88.46.147:80;  # Web01
+    server 52.90.91.120:80;  # Web02
 }
 
 server {
@@ -73,45 +150,107 @@ server {
         proxy_set_header X-Forwarded-Proto $scheme;
     }
 }
-Disable default site
 
-bash
-Copy
-Edit
+
+2. Disable default site (if needed)
+
+
 sudo rm /etc/nginx/sites-enabled/default
-Test and reload Nginx
 
-bash
-Copy
-Edit
+
+3. Test and reload
+
+
 sudo nginx -t
 sudo systemctl reload nginx
-How to Test
-Access the app via http://35.174.154.54
-
-Add, view, edit, and delete plans
-
-Confirm plans persist during your session (sticky sessions keep you on the same backend server)
-
-For true persistence across servers, consider implementing shared database (optional)
-
-Handling API Keys & Secrets
-Store API keys in a .env file or environment variables on each server
-
-Never commit .env or keys to GitHub
-
-Use libraries like python-dotenv to load environment variables securely
-
-Challenges & Notes
-Plans are stored locally on each server; switching servers during a session might cause missing data
-
-Sticky sessions mitigate this but are not a perfect solution
-
-For full reliability, move to a centralized database system
-
-Credits
-API used: [Name & URL]
-
-Flask, Nginx, and other open-source tools used in this project
 
 
+---
+
+ Testing Load Balancing
+
+1. Visit `http://35.174.154.54` in your browser.
+2. Add a plan. Reload the page.
+3. You should remain on the same server (thanks to `ip_hash` sticky sessions).
+4. To confirm balancing, check logs on each server or add a custom header in Nginx config.
+
+---
+
+ Secrets and API Keys
+
+ API keys are not hard-coded
+ Use a `.env` file and `python-dotenv` to load them
+ Make sure `.env` is excluded from Git via `.gitignore`
+
+---
+
+🔗 APIs Used
+
+ 1. openweathermap.org
+
+  Purpose: Fetches current weather data for travel destinations
+  Endpoint Example:
+
+  ```
+  [https://api.exchangerate.host/convert?from=USD&to=EUR&amount=1](https://api.openweathermap.org/data/2.5/weather?q=Kigali&appid=YOUR_API_KEY&units=metric
+)
+  ```
+* No API key needed
+
+Credit: [https://home.openweathermap.org/api_keys) for the free service.
+
+---
+
+ Development Challenges
+
+ Flask App Not Detected
+
+Problem: `flask run` failed to detect the app
+Fix: Exported `FLASK_APP` variable:
+
+  ```bash
+  export FLASK_APP=main.py
+  ```
+
+Virtualenv Activation on Windows
+
+Problem: `source venv/bin/activate` failed
+  Fix: Used `source venv/Scripts/activate` instead
+
+Load Balancing Debugging
+
+Problem: Hard to verify round-robin behavior
+Fix: Added custom response headers on each backend server using Nginx:
+
+  ```nginx
+  add_header X-Served-By Web01;  # change per server
+  ```
+
+---
+
+ Project Structure
+
+```
+travel-planner-app/
+├── templates/
+│   └── index.html
+├── static/
+├── main.py
+├── requirements.txt
+└── README.md
+```
+
+---
+License
+
+This project is open-source and free to use for learning purposes.
+
+---
+
+Let me know if you'd like me to:
+
+* Plug in your real GitHub repo link
+* Add database setup (SQLite or PostgreSQL)
+* Help generate a sample `.env` file
+
+I can also export this to a `.md` file if you want to copy it directly into your GitHub repo.
