@@ -44,7 +44,7 @@ By default, the app runs on `http://127.0.0.1:5000/`.
 
 ---
 
-## 🌐 Deployment on Web01 and Web02
+ Deployment on Web01 and Web02
 
 1. **Copy project files** to both servers (via Git or `scp`)
 
@@ -192,8 +192,8 @@ sudo systemctl reload nginx
   Endpoint Example:
 
   ```
-  [https://api.exchangerate.host/convert?from=USD&to=EUR&amount=1](https://api.openweathermap.org/data/2.5/weather?q=Kigali&appid=YOUR_API_KEY&units=metric
-)
+ https://api.openweathermap.org/data/2.5/weather?q=Kigali&appid=YOUR_API_KEY&units=metric
+
   ```
 * No API key needed
 
